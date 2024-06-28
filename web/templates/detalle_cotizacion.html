@@ -1,0 +1,81 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-gen">
+    <h1>Detalle Cotizacion</h1>
+    
+    <div class="content-gen-cot">
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table" id="miTabla">
+                    <thead>
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Dimensiones</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Precio Unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Sub-Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for detalle in detalleCotizacion %}
+                    <tr>
+                        <td>{{detalle.producto.name}}</td>
+                        <td>{{detalle.producto.dimensiones}}</td>
+                        <td>{{detalle.producto.categoria}}</td>
+                        <td>{{detalle.producto.precio_unitario}}</td>
+                        <td>{{detalle.cantidad}}</td>
+                        <td>{{detalle.sub_total}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="cont-importe-totalcotizacion">
+        <div class="cont-ttl-price">
+            <h3>Total: S/{{total_precio|floatformat:2}} nuevos soles</h3>
+        </div>
+    </div>
+    <div class="add-productos">
+        {{error}}
+        <h2>Add Producto</h2>
+        <form class="row g-3" method="POST">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label for="inputState" class="form-label">Producto</label>
+                <select id="inputState" selected value class="form-select" name="producto" required>
+                  <option value="0">Selecccione...</option>
+                  {% for precio in precios %}
+                  <option value="{{precio.id}}" id="{{precio.precio_unitario}}">{{precio.name}} - {{precio.dimensiones}} - P/u S/  {{precio.precio_unitario}} - Stock {{precio.stock}} Und.</option>
+                  {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-4">
+                <label for="gen" class="form-label">cantidad</label>
+                <input type="number" class="form-control"  id="gen" value="" name="cantidad" required>
+            </div>
+            <div class="col-md-4">
+                <label for="subtotal" class="form-label">sub-total</label>
+                <input type="number" class="form-control" id="subtotal" name="sub_total" step=".01" readonly>
+            </div>
+            
+            <div class="col-md-4">
+                <label for="cliente" class="form-label">Cliente</label>
+                {% for coti in cotizacion %}
+                <input type="text" class="form-control" id="cliente" name="cliente" value="{{coti.cliente.nombre}} - {{coti.cliente.razon_social}}" readonly>
+                <input type="hidden" class="form-control" id="cliente" name="cotizacion_id" value="{{coti.id}}">
+                {% endfor %}
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">añadir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

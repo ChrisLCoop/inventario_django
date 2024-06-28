@@ -1,0 +1,63 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-gen">
+    <h1>Cotizacion</h1>
+    {{error_db}}
+    <div class="content-gen-cot">
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Razon Social</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Fecha Cotizacion</th>
+                        <th scope="col">Detalles</th>
+                        <th scope="col">Imprimir</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cotizacion in cotizaciones %}
+                    <tr>
+                        <td>{{cotizacion.cliente.nombre}}</td>
+                        <td>{{cotizacion.cliente.razon_social}}</td>
+                        <td>{{cotizacion.descripcion}}</td>
+                        <td>{{cotizacion.fecha_cotizacion}}</td>
+                        <td><a href="{% url 'detalle_cotizacion' cotizacion.id %}">Detalle</a></td>
+                        <td><a href="{% url 'cotizacion_final' cotizacion.id %}">Print</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="add-productos">
+        {{error}}
+        <h2>Add Cotizacion</h2>
+        <form class="row g-3" method="POST">
+            {% csrf_token %}
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">Cliente</label>
+                <select id="inputState" selected value class="form-select" name="cliente_id" required>
+                  <option selected value="0">Selecccione...</option>
+                  {% for cliente in clientes %}
+                  <option value="{{cliente.id}}">{{cliente.nombre}}-{{cliente.razon_social}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+              <label for="descripcion" class="form-label">Descripcion</label>
+              <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">añadir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

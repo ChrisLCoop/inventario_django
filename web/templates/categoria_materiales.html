@@ -1,0 +1,49 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-gen">
+    <div class="cont-lista">
+        <h1>Categoria Materiales</h1>
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre Categoria</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for categoria in categorias %}
+                        <tr>
+                            <th scope="row">{{categoria.id}}</th>
+                            <td>{{categoria.name}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="add-productos">
+        {{error}}
+        <h2>Add Categoria</h2>
+        <form class="row g-3" method="POST">
+            {% csrf_token %}
+            <div class="col-md-6">
+              <label for="categoria" class="form-label">Nombre Categoria</label>
+              <input type="text" class="form-control" id="categoria" name="categoria" required>
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">añadir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

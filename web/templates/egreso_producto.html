@@ -1,0 +1,64 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-gen">
+    <h1>Egreso de materiales</h1>
+    <h2>Lista de Productos</h2>
+    <div class="content-gen-cot">
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table" id="miTabla">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Dimensiones</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Total Ingresado</th>
+                        <th scope="col">Stock Actual</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{producto.id}}</td>
+                        <td>{{producto.name}}</td>
+                        <td>{{producto.dimensiones}}</td>
+                        <td>{{producto.categoria}}</td>
+                        <td>{{producto.ingresado}}</td>
+                        <td>{{producto.stock}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="add-productos">
+        {{error}}
+        <h2>Registrar Egreso Producto</h2>
+        <form class="row g-3" method="POST">
+            {% csrf_token %}
+            <div class="col-md-8">
+                <label for="inputState" class="form-label">Producto</label>
+                <select id="inputState" selected value class="form-select" name="producto_id" required>
+                  <option selected value="0">Selecccione...</option>
+                  {% for producto in productos %}
+                  <option value="{{producto.id}}">id={{producto.id}} - {{producto.name}} - {{producto.dimensiones}} - {{producto.categoria}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="cantidad_egreso" class="form-label">Cantidad de Egreso</label>
+                <input type="number" class="form-control" id="cantidad_egreso" name="cantidad_egreso" required>
+              </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">añadir</button>
+            </div>
+            {{error_operacion}}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

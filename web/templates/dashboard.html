@@ -1,0 +1,56 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="content-gen">
+    <div class="cont-lista">
+        <h1>Dashboard</h1>
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre Producto</th>
+                        <th scope="col">Dimensiones</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Ingresado</th>
+                        <th scope="col">Stock</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{producto.name}}</td>
+                        <td>{{producto.dimensiones}}</td>
+                        <td>{{producto.categoria.name}}</td>
+                        <td>{{producto.ingresado}}</td>
+                        <td>{{producto.stock}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="content-graphics-pr">
+            <h2>Graficos</h2>
+            {% for data in datos %}
+            <div class="frame-gr">
+                <h6>{{data.name}} - {{data.dimensiones}} - {{data.categoria.name}}</h6>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{data.porcentage}}%;" aria-valuenow="{{data.porcentage}}" aria-valuemin="0" aria-valuemax="100"><td>{{data.stock}} = {{data.porcentage}}%</td></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cont-alert-stock">
+            <h2>alertas</h2>
+            {% for data in datos %}
+                {% if 30 > data.porcentage %}
+                <p>-id={{data.id}}, {{data.name}} - {{data.dimensiones}} - {{data.categoria.name}} esta al {{data.porcentage}}%</p>
+                {% endif %}
+            {% endfor %}
+            <p>Esta menos del 30%, del margen permitido</p>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

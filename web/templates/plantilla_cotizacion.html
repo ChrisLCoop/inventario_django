@@ -1,0 +1,54 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-gen">
+    <h1>Hoja final de cotizacion</h1>
+    <h2>Ferreteria MICKEY MOUSE</h2>
+    <div class="cont-cliente-info">
+        {% for coti in cotizacion %}
+        <p>CLIENTE: <span>{{coti.cliente.nombre}}</span></p>
+        <p>RAZON SOCIAL: <span>{{coti.cliente.razon_social}}</span></p>
+        {% endfor %}
+    </div>
+    <div class="content-gen-cot">
+        <div class="content-list-products">
+            <div class="content-fluid">
+                <table class="table" id="miTabla">
+                    <thead>
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Dimensiones</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Precio Unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for detalle in detalleCotizacion %}
+                    <tr>
+                        <td>{{detalle.producto.name}}</td>
+                        <td>{{detalle.producto.dimensiones}}</td>
+                        <td>{{detalle.producto.categoria}}</td>
+                        <td>{{detalle.producto.precio_unitario}}</td>
+                        <td>{{detalle.cantidad}}</td>
+                        <td>{{detalle.sub_total}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="cont-importe-totalcotizacion">
+        <div class="cont-ttl-price">
+            <p>Sub-Total: <span>S/{{total_precio|floatformat:2}}</span> </p>
+            <p>IGV: 18%</p>
+            <p>TOTAL: <span>S/{{precio_con_igv|floatformat:2}}</span></p>
+        </div>
+    </div>
+    <a href="#" id="imprimir">Imprimir Pagina</a>
+</div>
+
+{% endblock %}
